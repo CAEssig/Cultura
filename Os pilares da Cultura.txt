@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise Interativa da Cultura Organizacional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm Neutrals with Blue and Amber Accents -->
+    <!-- Application Structure Plan: A single-page vertical layout starting with a central interactive diagram of 5 cultural perspectives. Clicking a perspective updates a detail section below, connecting the perspective to the 4 "god" archetypes (from the source article). This drill-down structure encourages exploration and synthesizes the provided documents into a cohesive interactive narrative, which is more user-friendly than a static report. -->
+    <!-- Visualization & Content Choices: The core is an HTML/CSS diagram for the 5 perspectives (Goal: Organize/Interact, Method: Tailwind/JS, No SVG). Clicking a perspective dynamically updates a text block (Goal: Inform/Relate, Method: JS DOM manipulation), linking it to the 4 "god" archetypes. The archetypes are shown in a responsive card grid (Goal: Compare, Method: Tailwind Flexbox/Grid). This structure avoids static charts as there's no quantitative data, focusing on conceptual interaction. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #334155; /* slate-700 */
+        }
+        .perspective-card {
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        .perspective-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .perspective-card.selected {
+            border-color: #f59e0b; /* amber-500 */
+            transform: scale(1.05);
+        }
+        #details-section {
+            transition: opacity 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto px-4 py-8 md:py-16">
+
+        <header class="text-center mb-12 md:mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4">O Ecossistema da Cultura Organizacional</h1>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600">
+                Inspirado na célebre frase de Peter Drucker, "a cultura come a estratégia no café da manhã", esta análise interativa explora os pilares que sustentam a personalidade de uma empresa. Clique em cada perspectiva para entender seu impacto.
+            </p>
+        </header>
+
+        <main>
+            <section id="perspectives" class="mb-12 md:mb-20">
+                <h2 class="text-2xl font-bold text-center text-slate-800 mb-8">5 Pilares para o Sucesso Organizacional</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                    <div id="card-lideres" class="perspective-card border-2 border-transparent bg-white p-6 rounded-lg shadow-md text-center" onclick="showDetails('lideres')">
+                        <div class="text-4xl mb-4 text-blue-600">👥</div>
+                        <h3 class="font-bold text-lg text-slate-800">Líderes e Colaboração</h3>
+                    </div>
+                    <div id="card-desenvolvimento" class="perspective-card border-2 border-transparent bg-white p-6 rounded-lg shadow-md text-center" onclick="showDetails('desenvolvimento')">
+                        <div class="text-4xl mb-4 text-green-600">🌱</div>
+                        <h3 class="font-bold text-lg text-slate-800">Desenvolvimento e Reconhecimento</h3>
+                    </div>
+                    <div id="card-informacao" class="perspective-card border-2 border-transparent bg-white p-6 rounded-lg shadow-md text-center" onclick="showDetails('informacao')">
+                        <div class="text-4xl mb-4 text-gray-600">💻</div>
+                        <h3 class="font-bold text-lg text-slate-800">Informações e Tecnologias</h3>
+                    </div>
+                    <div id="card-mudancas" class="perspective-card border-2 border-transparent bg-white p-6 rounded-lg shadow-md text-center" onclick="showDetails('mudancas')">
+                        <div class="text-4xl mb-4 text-orange-600">🔄</div>
+                        <h3 class="font-bold text-lg text-slate-800">Gestão de Mudanças</h3>
+                    </div>
+                    <div id="card-decisoes" class="perspective-card border-2 border-transparent bg-white p-6 rounded-lg shadow-md text-center" onclick="showDetails('decisoes')">
+                        <div class="text-4xl mb-4 text-purple-600">⚖️</div>
+                        <h3 class="font-bold text-lg text-slate-800">Tomada de Decisões</h3>
+                    </div>
+                </div>
+            </section>
+
+            <section id="details-section" class="bg-white p-8 rounded-lg shadow-lg min-h-[300px] flex items-center justify-center hidden">
+                 <div id="details-content" class="text-center">
+                    <p class="text-xl text-slate-500">Selecione um pilar acima para ver os detalhes.</p>
+                </div>
+            </section>
+
+            <section id="archetypes" class="mt-16">
+                <h2 class="text-2xl font-bold text-center text-slate-800 mb-8">Os Arquétipos da Cultura: Qual deus comanda sua empresa?</h2>
+                 <p class="max-w-3xl mx-auto text-center text-lg text-slate-600 mb-12">
+                    Charles Handy associou culturas a deuses gregos para ilustrar suas "personalidades". Entender qual arquétipo predomina é chave para alinhar estratégias e impulsionar a inovação.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">Zeus (Cultura do Poder)</h3>
+                        <p class="text-slate-600">Centralizada e hierárquica. O poder emana de uma figura central, permitindo decisões rápidas. A lealdade pessoal é crucial.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">Apolo (Cultura do Papel)</h3>
+                        <p class="text-slate-600">Focada em regras, processos e lógica. Previsibilidade e estabilidade são a força, ideal para tarefas repetitivas.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">Atena (Cultura da Tarefa)</h3>
+                        <p class="text-slate-600">Organizada por projetos e problemas. Flexível, colaborativa e valoriza a expertise para entregar resultados.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <h3 class="font-bold text-xl text-slate-800 mb-2">Dionísio (Cultura Existencial)</h3>
+                        <p class="text-slate-600">O indivíduo é o centro. A organização existe para servir aos talentos, com alta autonomia e liberdade.</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-16 pt-8 border-t border-slate-200">
+             <p class="text-slate-600">Pronto para aprofundar a análise da sua cultura?</p>
+            <a href="mailto:contato@exemplo.com" class="text-amber-600 hover:text-amber-700 font-bold mt-2 inline-block">Vamos conversar sobre como transformar seus resultados.</a>
+        </footer>
+
+    </div>
+
+    <script>
+        const detailsData = {
+            lideres: {
+                title: "A forma como nossos líderes estabelecem metas e promovem a colaboração.",
+                description: "Líderes definem o tom da cultura. Sua capacidade de comunicar metas claras, delegar com confiança e fomentar um ambiente colaborativo é decisiva para o engajamento e a inovação.",
+                archetypes: `
+                    <li><strong>Zeus:</strong> Metas são impostas de cima para baixo. Colaboração depende da lealdade ao líder.</li>
+                    <li><strong>Apolo:</strong> Metas são parte do planejamento formal. Colaboração segue as regras e descrições de cargo.</li>
+                    <li><strong>Atena:</strong> Metas são definidas pelo projeto. Colaboração é intensa e focada na tarefa.</li>
+                    <li><strong>Dionísio:</strong> Líderes atuam como coordenadores de talentos individuais.</li>
+                `
+            },
+            desenvolvimento: {
+                title: "As oportunidades de desenvolvimento e reconhecimento.",
+                description: "Uma cultura que investe no crescimento de seus membros e reconhece suas contribuições gera um ciclo virtuoso de motivação e retenção de talentos.",
+                archetypes: `
+                    <li><strong>Zeus:</strong> O desenvolvimento depende da proximidade com o poder. Reconhecimento é pessoal.</li>
+                    <li><strong>Apolo:</strong> Desenvolvimento é estruturado (planos de carreira). Reconhecimento segue a hierarquia.</li>
+                    <li><strong>Atena:</strong> Desenvolvimento ocorre através dos desafios dos projetos. Reconhecimento vem do sucesso da equipe.</li>
+                    <li><strong>Dionísio:</strong> O desenvolvimento é autogerido pelo indivíduo.</li>
+                `
+            },
+            informacao: {
+                title: "A clareza e acessibilidade das informações e tecnologias.",
+                description: "A fluidez da informação e o acesso a ferramentas adequadas são a base para a agilidade e a tomada de decisões informadas. A tecnologia deve ser uma facilitadora, não uma barreira.",
+                archetypes: `
+                    <li><strong>Zeus:</strong> A informação é poder e é controlada pelo centro.</li>
+                    <li><strong>Apolo:</strong> A informação flui por canais formais e documentados.</li>
+                    <li><strong>Atena:</strong> A informação é compartilhada abertamente dentro das equipes de projeto.</li>
+                    <li><strong>Dionísio:</strong> A informação é buscada e trocada conforme a necessidade individual.</li>
+                `
+            },
+            mudancas: {
+                title: "Como as mudanças são compreendidas e implementadas.",
+                description: "A capacidade de uma organização de se adaptar depende de como as mudanças são comunicadas, geridas e internalizadas. Resistência ou aceitação são reflexos diretos da confiança e clareza no processo.",
+                archetypes: `
+                    <li><strong>Zeus:</strong> Mudanças são decretadas pelo líder.</li>
+                    <li><strong>Apolo:</strong> Mudanças são processos lentos e planejados, com alta resistência ao que foge da norma.</li>
+                    <li><strong>Atena:</strong> Mudança é constante, impulsionada pelas necessidades dos projetos.</li>
+                    <li><strong>Dionísio:</strong> Mudanças acontecem se os indivíduos-chave aderirem.</li>
+                `
+            },
+            decisoes: {
+                title: "A maneira como as decisões são tomadas e comunicadas.",
+                description: "O processo decisório revela a distribuição de poder e a confiança na organização. Decisões podem ser centralizadas ou distribuídas, rápidas ou ponderadas, e sua comunicação impacta diretamente o alinhamento.",
+                archetypes: `
+                    <li><strong>Zeus:</strong> As decisões são rápidas e centralizadas.</li>
+                    <li><strong>Apolo:</strong> As decisões são lógicas, baseadas em dados e seguem a hierarquia.</li>
+                    <li><strong>Atena:</strong> Decisões são tomadas pela equipe que possui a expertise para resolver o problema.</li>
+                    <li><strong>Dionísio:</strong> Decisões são individuais, com pouca coordenação central.</li>
+                `
+            }
+        };
+
+        function showDetails(perspective) {
+            const detailsSection = document.getElementById('details-section');
+            const detailsContent = document.getElementById('details-content');
+            
+            detailsSection.classList.remove('hidden');
+            detailsSection.style.opacity = '0';
+
+            const data = detailsData[perspective];
+
+            detailsContent.innerHTML = `
+                <div class="text-left max-w-4xl mx-auto">
+                    <h3 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">${data.title}</h3>
+                    <p class="text-lg text-slate-600 mb-6">${data.description}</p>
+                    <div class="bg-slate-100 p-4 rounded-lg">
+                         <h4 class="font-bold text-slate-700 mb-2">Como cada arquétipo se comporta:</h4>
+                         <ul class="list-disc list-inside text-slate-600 space-y-1">${data.archetypes}</ul>
+                    </div>
+                </div>
+            `;
+            
+            setTimeout(() => {
+                detailsSection.style.opacity = '1';
+                detailsSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+
+            document.querySelectorAll('.perspective-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById(`card-${perspective}`).classList.add('selected');
+        }
+    </script>
+</body>
+</html>
